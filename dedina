@@ -21,7 +21,7 @@ def postav_dom(base):
     )
 
     blocks.place(
-        OAK_DOOR,
+        BIRCH_DOOR,
         positions.add(base, positions.create(3, 1, 0))
     )
 
@@ -48,7 +48,7 @@ def dedina():
     end = positions.add(start_pos, positions.create(60, 0, -3))
 
     blocks.fill(
-        COBBLESTONE,
+        PALE_OAK_PLANKS,
         start,
         end,
         FillOperation.REPLACE
