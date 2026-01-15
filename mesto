@@ -1,0 +1,194 @@
+# ====== DOMY ======
+
+def dom_1poschodovy(base):
+    # steny
+    blocks.fill(
+        WHITE_CONCRETE,
+        base,
+        positions.add(base, positions.create(5, 3, 5)),
+        FillOperation.REPLACE
+    )
+
+    # vnútro
+    blocks.fill(
+        AIR,
+        positions.add(base, positions.create(1, 1, 1)),
+        positions.add(base, positions.create(4, 2, 4)),
+        FillOperation.REPLACE
+    )
+
+    # strecha
+    blocks.fill(
+        WHITE_CONCRETE,
+        positions.add(base, positions.create(0, 4, 0)),
+        positions.add(base, positions.create(5, 4, 5)),
+        FillOperation.REPLACE
+    )
+
+    # dvere
+    blocks.place(
+        AIR,
+        positions.add(base, positions.create(2, 1, 0))
+    )
+
+
+    # dedinčan
+    mobs.spawn(
+        mobs.animal(VILLAGER),
+        positions.add(base, positions.create(2, 1, -1))
+    )
+
+
+def dom_2poschodovy(base):
+    blocks.fill(
+        WHITE_CONCRETE,
+        base,
+        positions.add(base, positions.create(5, 7, 11)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        AIR,
+        positions.add(base, positions.create(1, 1, 1)),
+        positions.add(base, positions.create(4, 6, 10)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        WHITE_CONCRETE,
+        positions.add(base, positions.create(0, 8, 0)),
+        positions.add(base, positions.create(5, 8, 11)),
+        FillOperation.REPLACE
+    )
+
+    blocks.place(
+        BIRCH_DOOR,
+        positions.add(base, positions.create(2, 1, 0))
+    )
+
+    mobs.spawn(
+        mobs.animal(VILLAGER),
+        positions.add(base, positions.create(2, 1, -1))
+    )
+
+
+# ====== STROM ======
+
+def postav_strom(base):
+    blocks.fill(
+        LOG_OAK,
+        base,
+        positions.add(base, positions.create(0, 4, 0)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        LEAVES_OAK,
+        positions.add(base, positions.create(-2, 3, -2)),
+        positions.add(base, positions.create(2, 6, 2)),
+        FillOperation.REPLACE
+    )
+
+
+# ====== STUDŇA ======
+
+def postav_studnu(base):
+    blocks.fill(
+        COBBLESTONE,
+        base,
+        positions.add(base, positions.create(4, 0, 4)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        AIR,
+        positions.add(base, positions.create(1, 0, 1)),
+        positions.add(base, positions.create(3, 0, 3)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        WATER,
+        positions.add(base, positions.create(1, -1, 1)),
+        positions.add(base, positions.create(3, -1, 3)),
+        FillOperation.REPLACE
+    )
+
+
+# ====== CESTY ======
+
+def cesty(start):
+    blocks.fill(
+        COBBLESTONE,
+        positions.add(start, positions.create(6, 0, 6)),
+        positions.add(start, positions.create(13, 0, 7)),
+        FillOperation.REPLACE
+    )
+
+    blocks.fill(
+        COBBLESTONE,
+        positions.add(start, positions.create(6, 0, 6)),
+        positions.add(start, positions.create(7, 0, 13)),
+        FillOperation.REPLACE
+    )
+
+
+# ====== VÝCHOD ======
+
+def vychod(base):
+    blocks.fill(
+        AIR,
+        base,
+        positions.add(base, positions.create(1, 2, 0)),
+        FillOperation.REPLACE
+    )
+
+
+# ====== HLAVNÁ FUNKCIA ======
+
+def mesto():
+    start = player.position()
+
+    # ľavý horný roh
+    dom_1poschodovy(positions.add(start, positions.create(0, 0, 0)))
+    dom_2poschodovy(positions.add(start, positions.create(0, 0, 7)))
+    dom_1poschodovy(positions.add(start, positions.create(0, 0, 20)))
+
+    # pravá strana
+    dom_2poschodovy(positions.add(start, positions.create(7, 0, 20)))
+    dom_1poschodovy(positions.add(start, positions.create(20, 0, 20)))
+
+    # horná strana
+    dom_2poschodovy(positions.add(start, positions.create(20, 0, 7)))
+    dom_1poschodovy(positions.add(start, positions.create(20, 0, 0)))
+
+    # dolná strana
+    dom_2poschodovy(positions.add(start, positions.create(7, 0, 0)))
+
+    # cesty
+    cesty(start)
+
+    # východy + stromy
+    vychod(positions.add(start, positions.create(9, 0, -1)))
+    postav_strom(positions.add(start, positions.create(10, 0, -4)))
+
+    vychod(positions.add(start, positions.create(9, 0, 21)))
+    postav_strom(positions.add(start, positions.create(10, 0, 24)))
+
+    vychod(positions.add(start, positions.create(-1, 0, 9)))
+    postav_strom(positions.add(start, positions.create(-4, 0, 10)))
+
+    vychod(positions.add(start, positions.create(21, 0, 9)))
+    postav_strom(positions.add(start, positions.create(24, 0, 10)))
+
+    # studňa v strede
+    postav_studnu(positions.add(start, positions.create(8, 0, 8)))
+
+    # iron golem
+    mobs.spawn(
+        IRON_GOLEM,
+        positions.add(start, positions.create(10, 1, 10))
+    )
+
+
+player.on_chat("mesto", mesto)
