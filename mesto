@@ -106,15 +106,15 @@ def postav_studnu(base):
 def postav_cesty(start):
     blocks.fill(
         COBBLESTONE,
-        positions.add(start, positions.create(8, 0, 0)),
-        positions.add(start, positions.create(9, 0, 19)),
+        positions.add(start, positions.create(6, 0, 0)),
+        positions.add(start, positions.create(6, 0, 19)),
         FillOperation.REPLACE
     )
 
     blocks.fill(
         COBBLESTONE,
-        positions.add(start, positions.create(0, 0, 8)),
-        positions.add(start, positions.create(19, 0, 9)),
+        positions.add(start, positions.create(0, 0, 6)),
+        positions.add(start, positions.create(19, 0, 6)),
         FillOperation.REPLACE
     )
 
@@ -122,32 +122,25 @@ def postav_cesty(start):
 def mesto():
     start = player.position()
 
-    # horný rad
     postav_dom_6x6(positions.add(start, positions.create(0, 0, 0)))
     postav_dom_6x12(positions.add(start, positions.create(7, 0, 0)))
     postav_dom_6x6(positions.add(start, positions.create(14, 0, 0)))
 
-    # dolný rad
-    postav_dom_6x6(positions.add(start, positions.create(0, 0, 14)))
-    postav_dom_6x12(positions.add(start, positions.create(7, 0, 14)))
-    postav_dom_6x6(positions.add(start, positions.create(14, 0, 14)))
+    postav_dom_6x6(positions.add(start, positions.create(0, 0, 16)))
+    postav_dom_6x12(positions.add(start, positions.create(7, 0, 16)))
+    postav_dom_6x6(positions.add(start, positions.create(14, 0, 16)))
 
-    # cesty
     postav_cesty(start)
 
-    # studňa + golem
-    postav_studnu(positions.add(start, positions.create(8, 0, 8)))
+    postav_studnu(positions.add(start, positions.create(8, 0, 10)))
     mobs.spawn(
         IRON_GOLEM,
         positions.add(start, positions.create(10, 1, 10))
     )
 
-    # stromy pri východoch
-    postav_strom(positions.add(start, positions.create(10, 0, -4)))
-    postav_strom(positions.add(start, positions.create(10, 0, 24)))
-    postav_strom(positions.add(start, positions.create(-4, 0, 10)))
-    postav_strom(positions.add(start, positions.create(24, 0, 10)))
-
+    postav_strom(positions.add(start, positions.create(10, 0, -7)))
+    postav_strom(positions.add(start, positions.create(10, 0, 26)))
+    postav_strom(positions.add(start, positions.create(-7, 0, 10)))
+    postav_strom(positions.add(start, positions.create(26, 0, 10)))
 
 player.on_chat("mesto", mesto)
-
